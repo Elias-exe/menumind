@@ -11,7 +11,7 @@ export const Board = styled.div`
   flex: 1;
 
 
-  header{
+  > header{
     padding: 8px;
     font-size: 14px;
     display: flex;
@@ -26,7 +26,6 @@ display: flex;
 flex-direction: column;
 width: 100%;
 margin-top: 24px;
-
 
   button{
     background: #fff;

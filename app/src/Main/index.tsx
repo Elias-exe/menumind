@@ -14,16 +14,20 @@ import { useState } from 'react';
 
 export function Main(){
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
-  const [selectedTable, setSelectedTable] = useState('');
+  const [selectedTable, setSelectedTable] = useState('13');
 
   function handleSaveTable(table:string){
     setSelectedTable(table);
   }
 
+  function handleCancelOrder(){
+    setSelectedTable('');
+  }
+
   return(
     <>
       <Container>
-        <Header />
+        <Header selectedTable={selectedTable} onCancelOrder={handleCancelOrder}/>
         <CategoriesContainer>
           <Categories />
         </CategoriesContainer>

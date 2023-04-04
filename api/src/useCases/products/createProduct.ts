@@ -17,7 +17,7 @@ export async function createProduct(req: Request, res: Response){
         });
         res.status(201).send({product});
     }catch (error){
-        console.error(error);
+        console.log(error);
         res.status(500).send('Internal Server Error');
     }
 }

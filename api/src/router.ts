@@ -12,6 +12,7 @@ import { listOrders } from './useCases/orders/listOrders';
 import { createOrder } from './useCases/orders/createOrder';
 import { changeOrderStatus } from './useCases/orders/changeOrderStatus';
 import { cancelOrder } from './useCases/orders/cancelOrder';
+import { deleteProduct } from './useCases/products/deleteProduct';
 
 export const router = Router();
 
@@ -52,3 +53,6 @@ router.patch('/orders/:orderId', changeOrderStatus);
 
 // Delete/cancel order
 router.delete('/orders/:orderId', cancelOrder);
+
+// Delete product
+router.delete('/products/:productId', deleteProduct );

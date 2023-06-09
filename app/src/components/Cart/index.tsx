@@ -17,23 +17,37 @@ import { MinusCircle } from '../Icons/MinusCircle';
 import { Button } from '../Button';
 import { Product } from '../../types/Product';
 import { OrderConfirmedModal } from '../OrderConfirmedModal';
+import { api } from '../../utils/api';
 
 interface CartProps {
-  cartItem: CartItem[],
+  cartItems: CartItem[],
   addToCart: (product: Product) => void,
   onDecrement: (product: Product) => void,
-  onConfirmOrder: () => void
+  onConfirmOrder: () => void,
+  selectedTable: string
 }
 
-export function Cart({cartItem, addToCart, onDecrement, onConfirmOrder} : CartProps){
+export function Cart({cartItems, addToCart, onDecrement, onConfirmOrder, selectedTable} : CartProps){
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const total = cartItem.reduce((acc, item) => {
+  const total = cartItems.reduce((acc, item) => {
     return acc + item.product.price * item.quantity;
   }, 0);
 
-  function handleConfirmOrder(){
+  async function handleConfirmOrder(){
+    setIsLoading(true);
+
+    const payload = {
+      table: selectedTable,
+      products: cartItems.map((cartItem) => ({
+        product: cartItem.product._id,
+        quantity: cartItem.quantity
+      }))
+    };
+
+    await api.post('/orders', payload);
+    setIsLoading(false);
     setIsModalVisible(true);
   }
 
@@ -48,10 +62,10 @@ export function Cart({cartItem, addToCart, onDecrement, onConfirmOrder} : CartPr
         visible={isModalVisible}
         onOk={handleOk}
       />
-      {cartItem.length > 0 && (
+      {cartItems.length > 0 && (
         <FlatList
-          data={cartItem}
-          keyExtractor={cartItem => cartItem.product._id}
+          data={cartItems}
+          keyExtractor={cartItems => cartItems.product._id}
           showsVerticalScrollIndicator={false}
           style={{marginBottom: 20, maxHeight:200}}
           renderItem={({item: cartItem}) => (
@@ -99,7 +113,7 @@ export function Cart({cartItem, addToCart, onDecrement, onConfirmOrder} : CartPr
 
       <Summary>
         <TotalContainer>
-          {cartItem.length > 0 ? (
+          {cartItems.length > 0 ? (
             <>
               <Text color='#666'>Total</Text>
               <Text size={20} weight='600'>{formatCurrency(total)}</Text>
@@ -112,7 +126,7 @@ export function Cart({cartItem, addToCart, onDecrement, onConfirmOrder} : CartPr
 
         <Button
           onPress={handleConfirmOrder}
-          disabled={cartItem.length === 0}
+          disabled={cartItems.length === 0}
           loading={isLoading}
         >
               Confirmar pedido

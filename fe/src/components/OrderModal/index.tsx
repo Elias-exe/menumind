@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import {  } from 'react-toastify';
 import closeIcon from '../../assets/images/close-icon.svg';
 import { Order } from '../../types/Order';
 import { formatCurrency } from '../../utils/formatCurrency';
@@ -9,9 +10,19 @@ interface OrderModalProps{
   visible: boolean;
   order: Order | null;
   onClose: () => void;
+  onCancelOrder: () => Promise<void>;
+  onChangeOrderStatus: () => void;
+  isLoading: boolean;
 }
 
-export function OrderModal({visible, order, onClose } : OrderModalProps){
+export function OrderModal({
+  visible,
+  order,
+  onClose,
+  onCancelOrder,
+  onChangeOrderStatus,
+  isLoading
+} : OrderModalProps){
 
   useEffect(() => {
 
@@ -81,6 +92,7 @@ export function OrderModal({visible, order, onClose } : OrderModalProps){
                 <div className="product-details">
 
                   <span className="product-name">{product.name}</span>
+                  <br />
                   <span>{formatCurrency(product.price)}</span>
                 </div>
               </div>
@@ -93,11 +105,23 @@ export function OrderModal({visible, order, onClose } : OrderModalProps){
         </OrderDetails>
 
         <Actions>
-          <button type='button' className='primary'>
-            <span>👨‍🍳</span>
-            <strong>Iniciar Produção</strong>
-          </button>
-          <button type='button' className='secondary'>
+          {order.status !== 'DONE' && (
+            <button
+              type='button'
+              className='primary'
+              disabled={isLoading}
+              onClick={onChangeOrderStatus}
+            >
+              <span>{order.status === 'WAITING' ? '👨‍🍳' : '✅'}</span>
+              <strong>{order.status === 'WAITING' ? 'Iniciar produção' : 'Feito!'}</strong>
+            </button>
+          )}
+          <button
+            type='button'
+            className='secondary'
+            disabled={isLoading}
+            onClick={onCancelOrder}
+          >
             Cancelar pedido
           </button>
         </Actions>

@@ -28,5 +28,18 @@ export const Content = styled.div`
       opacity: 0.9;
       margin-top: 6px;
     }
+
+  }
+  img{
+    width: 200px;
+  }
+`;
+
+export const MenuContainer = styled.div`
+  display: flex;
+  top: 0;
+  button {
+    background: none;
+    border: none;
   }
 `;

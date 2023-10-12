@@ -13,6 +13,8 @@ import { createOrder } from './useCases/orders/createOrder';
 import { changeOrderStatus } from './useCases/orders/changeOrderStatus';
 import { cancelOrder } from './useCases/orders/cancelOrder';
 import { deleteProduct } from './useCases/products/deleteProduct';
+import { createAccount } from './useCases/account/createAccount';
+import { loginAccount } from './useCases/account/loginAccount';
 
 export const router = Router();
 
@@ -56,3 +58,9 @@ router.delete('/orders/:orderId', cancelOrder);
 
 // Delete product
 router.delete('/products/:productId', deleteProduct );
+
+//Create account
+router.post('/register', createAccount);
+
+//Login account
+router.post('/signup', loginAccount);

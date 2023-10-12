@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 import { Menu } from '../../components/Menu';
 import Header from '../../components/Header';
 import Orders from '../../components/Orders';
-import { SplashScreen } from '../../components/SplashScreen';
 
 export function Home(){
   const [menu, setMenu] = useState(false);
@@ -18,7 +17,6 @@ export function Home(){
 
   return (
     <>
-      <SplashScreen></SplashScreen>
       <Menu menuVisible={menu} onCloseMenu={handleCloseMenu}/>
       <Header onOpenMenu={handleOpenMenu}/>
       <Orders />
